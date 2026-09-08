@@ -1,0 +1,11 @@
+2026-08-29T16:30:00.000000Z | INFO [operation_Id=40300000000000000000000000000002] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=cajera001&sAMAccountName_target=cajera002 "HTTP/1.1" 403
+2026-08-29T16:30:01.000000Z | INFO [operation_Id=40300000000000000000000000000002] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Acajera001%29 "HTTP/1.1 200 "
+2026-08-29T16:30:01.100000Z | INFO [operation_Id=40300000000000000000000000000002] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:cajera001)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Rosa","LAST_NAME":"Diaz","OFFICE":"0300","DESCRIPTION":"Cajera","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"cajera001"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T16:30:01.200000Z | INFO [operation_Id=40300000000000000000000000000002] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Acajera002%29 "HTTP/1.1 200 "
+2026-08-29T16:30:01.300000Z | INFO [operation_Id=40300000000000000000000000000002] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:cajera002)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Elena","LAST_NAME":"Gomez","OFFICE":"0300","DESCRIPTION":"Cajera","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"cajera002"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:

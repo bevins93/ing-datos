@@ -1,0 +1,2 @@
+2026-08-29T14:22:08.337641Z | INFO [operation_Id=50300000000000000000000000000001] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=admsistemas507&sAMAccountName_target=sgsupmercado507 "HTTP/1.1" 503
+2026-08-29T14:22:17.142288Z | INFO [operation_Id=50300000000000000000000000000001] | ADM-Raw response | status: 200 | body: [{'statusMessage': 'LOGON_NAME: sgsupmercado507@retailstore.com - No such user matched. Verify the LDAP attribute in search query or could be a privilege issue.', 'status': '0'}]

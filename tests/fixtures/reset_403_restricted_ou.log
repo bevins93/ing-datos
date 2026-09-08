@@ -1,0 +1,11 @@
+2026-08-29T16:31:00.000000Z | INFO [operation_Id=40300000000000000000000000000003] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=gerente050&sAMAccountName_target=cedis001 "HTTP/1.1" 403
+2026-08-29T16:31:01.000000Z | INFO [operation_Id=40300000000000000000000000000003] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Agerente050%29 "HTTP/1.1 200 "
+2026-08-29T16:31:01.100000Z | INFO [operation_Id=40300000000000000000000000000003] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:gerente050)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Hector","LAST_NAME":"Vargas","OFFICE":"0050","DESCRIPTION":"Gerente Tienda","OU_NAME":"OAT/Tiendas/BackOffice","SAM_ACCOUNT_NAME":"gerente050"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T16:31:01.200000Z | INFO [operation_Id=40300000000000000000000000000003] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Acedis001%29 "HTTP/1.1 200 "
+2026-08-29T16:31:01.300000Z | INFO [operation_Id=40300000000000000000000000000003] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:cedis001)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Ivan","LAST_NAME":"Soto","OFFICE":"0050","DESCRIPTION":"Operador Cedis","OU_NAME":"OAT/Cedis/BY","SAM_ACCOUNT_NAME":"cedis001"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:

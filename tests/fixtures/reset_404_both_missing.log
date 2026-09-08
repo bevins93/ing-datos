@@ -1,0 +1,11 @@
+2026-08-29T13:55:00.000000Z | INFO [operation_Id=40400000000000000000000000000003] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=NOEXISTE1&sAMAccountName_target=NOEXISTE2 "HTTP/1.1" 404
+2026-08-29T13:55:01.000000Z | INFO [operation_Id=40400000000000000000000000000003] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3ANOEXISTE1%29 "HTTP/1.1 200 "
+2026-08-29T13:55:01.100000Z | INFO [operation_Id=40400000000000000000000000000003] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:NOEXISTE1)'}, Raw Response: {"UsersList":[],"count":0,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T13:55:01.200000Z | INFO [operation_Id=40400000000000000000000000000003] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3ANOEXISTE2%29 "HTTP/1.1 200 "
+2026-08-29T13:55:01.300000Z | INFO [operation_Id=40400000000000000000000000000003] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:NOEXISTE2)'}, Raw Response: {"UsersList":[],"count":0,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:

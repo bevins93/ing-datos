@@ -1,0 +1,1 @@
+2026-08-29T16:32:00.000000Z | INFO [operation_Id=40300000000000000000000000000004] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=admsistemas210&sAMAccountName_target=210000111 "HTTP/1.1" 403

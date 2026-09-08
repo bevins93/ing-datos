@@ -1,0 +1,11 @@
+2026-08-29T16:28:39.038319Z | INFO [operation_Id=40300000000000000000000000000001] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=admsistemas062&sAMAccountName_target=1500023149 "HTTP/1.1" 403
+2026-08-29T16:28:40.941744Z | INFO [operation_Id=40300000000000000000000000000001] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Aadmsistemas062%29 "HTTP/1.1 200 "
+2026-08-29T16:28:40.942564Z | INFO [operation_Id=40300000000000000000000000000001] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:admsistemas062)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Nombre","LAST_NAME":"Apellido","OFFICE":"0062","DESCRIPTION":"Administrador De Sistemas","OU_NAME":"OAT/Tiendas/BackOffice","SAM_ACCOUNT_NAME":"AdmSistemas062"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T16:28:40.95598Z | INFO [operation_Id=40300000000000000000000000000001] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3A1500023149%29 "HTTP/1.1 200 "
+2026-08-29T16:28:40.957227Z | INFO [operation_Id=40300000000000000000000000000001] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:1500023149)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Nombre2","LAST_NAME":"Apellido2","OFFICE":"0211","DESCRIPTION":"Vigilante","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"1500023149"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
