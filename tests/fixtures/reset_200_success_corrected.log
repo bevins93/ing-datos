@@ -1,0 +1,26 @@
+2026-08-29T12:59:24.457383Z | INFO [operation_Id=10000000000000000000000000000001] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=admsistemas970&sAMAccountName_target=1500335663 "HTTP/1.1" 200
+2026-08-29T12:59:26.391983Z | INFO [operation_Id=10000000000000000000000000000001] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Aadmsistemas970%29 "HTTP/1.1 200 "
+2026-08-29T12:59:26.392859Z | INFO [operation_Id=10000000000000000000000000000001] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:admsistemas970)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Juan","LAST_NAME":"Perez","OFFICE":"0970","DESCRIPTION":"Gerente De Sistemas","OU_NAME":"OAT/Tiendas/BackOffice","SAM_ACCOUNT_NAME":"admsistemas970"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T12:59:26.394777Z | INFO [operation_Id=10000000000000000000000000000001] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3A1500335663%29 "HTTP/1.1 200 "
+2026-08-29T12:59:26.395677Z | INFO [operation_Id=10000000000000000000000000000001] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:1500335663)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Maria","LAST_NAME":"Lopez","OFFICE":"0970","DESCRIPTION":"Cajera","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"1500335663"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T12:59:35.191611Z | INFO [operation_Id=10000000000000000000000000000001] | HTTP Request: POST https://admanager.retailstore.com/RestAPI/ResetPwd?AuthToken=[REDACTED_TOKEN]&PRODUCT_NAME=smartdeskbot&domainName=retailstore.com&pwd=[REDACTED_PASSWORD]&inputFormat=%5B%7B%22userPrincipalName%22%3A%221500335663%40retailstore.com%22%7D%5D "HTTP/1.1 200 "
+2026-08-29T12:59:35.192208Z | INFO [operation_Id=10000000000000000000000000000001] | ADM-Raw response | status: 200 | body: [{'sAMAccountName': '1500335663', 'reset': 'yes', 'statusMessage': 'Password reset successful.', 'status': '1'}]
+2026-08-29T14:10:02.100000Z | INFO [operation_Id=10000000000000000000000000000002] | HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser?sAMAccountName_requester=admsistemas315&sAMAccountName_target=304000282 "HTTP/1.1" 200
+2026-08-29T14:10:03.100000Z | INFO [operation_Id=10000000000000000000000000000002] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Aadmsistemas315%29 "HTTP/1.1 200 "
+2026-08-29T14:10:03.200000Z | INFO [operation_Id=10000000000000000000000000000002] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:admsistemas315)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Ana","LAST_NAME":"Diaz","OFFICE":"0315","DESCRIPTION":"Gerente Tienda","OU_NAME":"OAT/Tiendas/BackOffice","SAM_ACCOUNT_NAME":"admsistemas315"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T14:10:03.300000Z | INFO [operation_Id=10000000000000000000000000000002] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3A304000282%29 "HTTP/1.1 200 "
+2026-08-29T14:10:03.400000Z | INFO [operation_Id=10000000000000000000000000000002] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:304000282)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Luis","LAST_NAME":"Ramirez","OFFICE":"0315","DESCRIPTION":"Cajero","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"304000282"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T14:10:04.500000Z | INFO [operation_Id=10000000000000000000000000000002] | HTTP Request: POST https://admanager.retailstore.com/RestAPI/ResetPwd?AuthToken=[REDACTED_TOKEN]&PRODUCT_NAME=smartdeskbot&domainName=retailstore.com&pwd=[REDACTED_PASSWORD]&inputFormat=%5B%7B%22userPrincipalName%22%3A%22304000282%40retailstore.com%22%7D%5D "HTTP/1.1 200 "
+2026-08-29T14:10:04.600000Z | INFO [operation_Id=10000000000000000000000000000002] | ADM-Raw response | status: 200 | body: [{'sAMAccountName': '304000282', 'reset': 'yes', 'statusMessage': 'Password reset successful.', 'status': '1'}]
