@@ -1,6 +1,6 @@
 # Comandos de referencia — reset-report
 
-Chuleta con todos los comandos de shell para instalar, ejecutar y probar el
+Acordeon con todos los comandos de shell para instalar, ejecutar y probar el
 proyecto, tanto en Windows (VSCode / PowerShell / Git Bash) como en WSL.
 Este archivo es solo documentacion de referencia; no es parte del pipeline
 ejecutable.
