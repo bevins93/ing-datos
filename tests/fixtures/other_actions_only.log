@@ -1,0 +1,4 @@
+2026-08-29T10:00:00.000000Z | INFO [operation_Id=90000000000000000000000000000001] | HTTP Request: GET https://retailstore.proactivanet.com/proactivanet/api/Incidents?%24limit=1 "HTTP/1.1 200 OK"
+2026-08-29T10:00:00.100000Z | INFO [operation_Id=90000000000000000000000000000001] | ProactivanetRawClient, method = GET, url = Incidents, proactivanet_raw_response: [{'Id': 'ANON_1', 'Subject': 'Ticket de ejemplo'}]
+2026-08-29T10:05:00.000000Z | INFO [operation_Id=90000000000000000000000000000002] | HTTP Request: http://apitools.com:8000/v3/segMttoUsuario/algo?sAMAccountName=admsistemas001 "HTTP/1.1" 200
+2026-08-29T10:05:00.100000Z | INFO [operation_Id=90000000000000000000000000000002] | segMttoUsuario procesado correctamente
