@@ -1,0 +1,24 @@
+# datos reales (nunca se suben al repo)
+/datos/
+/data/input/*
+/data/output/*
+!/data/input/.gitkeep
+!/data/output/.gitkeep
+
+# entornos y caches de Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# credenciales / secretos
+.env
+*.env
+
+# artefactos de IDE / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
