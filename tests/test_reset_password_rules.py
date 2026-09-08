@@ -64,12 +64,18 @@ def test_403_office_mismatch():
 
 def test_403_no_privilege():
     row = _row_for("reset_403_no_privilege.log")
-    assert row.resultado_final == "El usuario solicitante no tiene privilegios para ejecutar el reseteo"
+    assert (
+        row.resultado_final
+        == "El usuario solicitante no tiene privilegios para ejecutar el reseteo"
+    )
 
 
 def test_403_restricted_ou():
     row = _row_for("reset_403_restricted_ou.log")
-    assert row.resultado_final == "El usuario target pertenece a una oficina restringida (OAT/Cedis/BY)"
+    assert (
+        row.resultado_final
+        == "El usuario target pertenece a una oficina restringida (OAT/Cedis/BY)"
+    )
 
 
 def test_403_unknown_cause_fallback():
@@ -97,7 +103,9 @@ def test_404_both_missing():
 
 def test_429_tokens_exhausted():
     row = _row_for("reset_429_tokens_exhausted.log")
-    assert row.resultado_final == "No se pudo ejecutar el reseteo: se agotaron los tokens de ADManager"
+    assert (
+        row.resultado_final == "No se pudo ejecutar el reseteo: se agotaron los tokens de ADManager"
+    )
 
 
 def test_500_critical_is_logged_as_critical(caplog):
@@ -133,7 +141,7 @@ def test_unrecognized_code_fallback():
             operation_id="op-unknown",
             message=(
                 "HTTP Request: http://apitools.com:8000/v3/users_admin/resetuser"
-                "?sAMAccountName_requester=a&sAMAccountName_target=b \"HTTP/1.1\" 418"
+                '?sAMAccountName_requester=a&sAMAccountName_target=b "HTTP/1.1" 418'
             ),
         )
     )

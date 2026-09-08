@@ -87,9 +87,7 @@ class AdManagerResetPasswordRules(ActionRuleSet):
             nombre_completo_solicitante=(
                 requester_info.nombre_completo if _is_found(requester_info) else ""
             ),
-            nombre_completo_target=(
-                target_info.nombre_completo if _is_found(target_info) else ""
-            ),
+            nombre_completo_target=(target_info.nombre_completo if _is_found(target_info) else ""),
             oficina_solicitante=_office_of(requester_info),
             oficina_target=_office_of(target_info),
             resultado_final=resultado_final,
@@ -143,9 +141,7 @@ class AdManagerResetPasswordRules(ActionRuleSet):
             requester_office = normalize(requester_info.office)
             target_office = normalize(target_info.office)
             if requester_office and target_office and requester_office != target_office:
-                return (
-                    "El usuario solicitante y el usuario target no pertenecen a la misma oficina"
-                )
+                return "El usuario solicitante y el usuario target no pertenecen a la misma oficina"
 
         if _is_found(requester_info) and not starts_with_any(
             requester_info.description, PRIVILEGED_DESCRIPTION_PREFIXES
