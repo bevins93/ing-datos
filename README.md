@@ -142,6 +142,7 @@ Para agregar, por ejemplo, un hipotetico "bloqueo de cuenta" en otro sistema:
    from reset_report.report_row import ReportRow
    from reset_report.log_ingest import LogBlock
 
+
    class OtroSistemaLockRules(ActionRuleSet):
        action_name = "bloqueo_cuenta"
        system_name = "OtroSistema"

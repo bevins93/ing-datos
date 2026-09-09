@@ -50,9 +50,11 @@ PRIVILEGED_DESCRIPTION_PREFIXES = ("gerente", "admin")
 
 # --- Alta de usuario en SAP (accion alta_usuario_sap) ---
 
-# Valores validos (normalizados) del parametro `treatment` del endpoint
-# sap/register_user.
-VALID_TREATMENTS = ("señor", "señora")
+# Valores validos del parametro `treatment` del endpoint sap/register_user,
+# ya normalizados (sin tilde) porque se comparan contra normalize(treatment):
+# normalize() quita acentos via descomposicion NFKD, asi que "señor" se
+# convierte en "senor" antes de comparar.
+VALID_TREATMENTS = ("senor", "senora")
 
 # Puestos (normalizados) observados realmente en los 4 dias de log de
 # muestra. Se usa como heuristica para la regla de 400 "el puesto solicitado

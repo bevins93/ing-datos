@@ -122,9 +122,7 @@ class AltaUsuarioSapRules(ActionRuleSet):
         if code == "500":
             return self._handle_500(operation_id)
         if code == "503":
-            return (
-                "Todas las validaciones fueron exitosas, pero el servicio del lado de SAP fallo"
-            )
+            return "Todas las validaciones fueron exitosas, pero el servicio del lado de SAP fallo"
 
         if final_message:
             return final_message
@@ -150,9 +148,7 @@ class AltaUsuarioSapRules(ActionRuleSet):
     def _handle_208(trigger: RegisterUserTrigger, sap_response: SapRawResponse | None) -> str:
         if sap_response and sap_response.mensaje:
             return sap_response.mensaje
-        return (
-            f"El empleado {trigger.target_employee_id} ya existe en el ambiente ECC ECP de SAP."
-        )
+        return f"El empleado {trigger.target_employee_id} ya existe en el ambiente ECC ECP de SAP."
 
     @staticmethod
     def _handle_400(trigger: RegisterUserTrigger) -> str:
@@ -182,10 +178,7 @@ class AltaUsuarioSapRules(ActionRuleSet):
         requester_info: SearchUserInfo | None,
         target_info: SearchUserInfo | None,
     ) -> str:
-        if (
-            is_found(requester_info)
-            and normalize(requester_info.office) == CORPORATIVO_OFFICE_NAME
-        ):
+        if is_found(requester_info) and normalize(requester_info.office) == CORPORATIVO_OFFICE_NAME:
             return (
                 "El usuario solicitante es de OAT, por lo que no tiene permitido "
                 "ejecutar este proceso (OFFICE: corporativo)"
