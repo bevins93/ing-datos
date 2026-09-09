@@ -2,8 +2,11 @@
 
 Pipeline que lee los logs diarios del bot de soporte y actualiza de forma
 incremental e idempotente `data/output/tabla_reporte_bot.csv` con los eventos
-de **reseteo de contrasena en ADManager** (endpoint interno
-`users_admin/resetuser`).
+de dos acciones soportadas:
+
+- **Reseteo de contrasena en ADManager** (endpoint interno
+  `users_admin/resetuser`).
+- **Alta de usuario en SAP** (endpoint interno `sap/register_user`).
 
 `resultado_final` nunca contiene el status code crudo de la API interna: es
 siempre un mensaje humano, construido combinando ese status code con la
@@ -25,9 +28,13 @@ ya viene en el log.
 │   ├── text_normalize.py    # normalizacion de texto centralizada
 │   ├── report_row.py        # forma de una fila del CSV
 │   ├── log_ingest/          # descubrimiento de archivos + agrupacion por operation_Id
-│   ├── parsers/             # extraccion de datos crudos (resetuser, SearchUser, ADM-Raw response)
-│   ├── rules/                # motor de reglas de negocio -> mensaje humano de resultado_final
-│   └── output/                # upsert idempotente al CSV final
+│   ├── parsers/             # extraccion de datos crudos (resetuser, register_user, SearchUser,
+│   │                         #   ADM-Raw response, SAP raw response, mensaje humano final)
+│   ├── rules/               # motor de reglas de negocio -> mensaje humano de resultado_final
+│   │   ├── common.py               # helpers compartidos entre rule sets (is_found, office_of)
+│   │   ├── reset_password_rules.py # reglas de reseteo de password (ADManager)
+│   │   └── alta_usuario_sap_rules.py  # reglas de alta de usuario (SAP)
+│   └── output/              # upsert idempotente al CSV final
 └── tests/
     ├── fixtures/*.log        # logs sinteticos, uno por caso de negocio
     └── test_*.py
@@ -124,12 +131,74 @@ ADManager es inconsistente en como capitaliza esos campos
 (por ejemplo el `statusMessage` del 503) nunca se normaliza: se usa el valor
 original del log.
 
+### Alta de usuario en SAP (`alta_usuario_sap_rules.py`)
+
+A diferencia de reseteo, el propio bot casi siempre escribe una linea de
+texto plano con el resultado final del bloque (confirmado en los 39 bloques
+reales disponibles: aparece en 38 de 39, la unica excepcion es el 400 sin
+downstream). Cuando existe, `resultado_final` la usa **tal cual, verbatim**
+— es la fuente mas fiel de lo que realmente paso. Solo se deriva un mensaje
+a partir de los campos crudos (SearchUser, `job`/`treatment` del propio
+endpoint) cuando esa linea no esta disponible, o para 500/503 que siempre
+usan un texto fijo.
+
+| Code | Causa | Mensaje | Verificado |
+|---|---|---|---|
+| 200 | Exito | linea final del bot, verbatim | ✅ log real |
+| 202 | No se pudo cerrar el ticket de seguimiento | linea final del bot, verbatim | 🧪 sintetico |
+| 202 | No se pudo crear el ticket de control | linea final del bot, verbatim | 🧪 sintetico |
+| 208 | El empleado ya existe en ECC ECP (SAP responde con "ya existe" en `Mensaje`) | linea final del bot, verbatim (fallback: `Mensaje` de SAP) | ✅ log real |
+| 400 | `target_employee_id` no es numerico | `El numero de empleado no es numerico` | ✅ log real |
+| 400 | `treatment` no es "señor"/"señora" | `El tratamiento no es "señor" ni "señora"` | 🧪 sintetico |
+| 400 | `job` no esta en la lista heuristica de puestos conocidos | `El puesto solicitado no existe` | 🧪 sintetico + heuristica (ver abajo) |
+| 400 | Ninguna de las anteriores aplico (fallback por descarte) | `Todas las validaciones fueron exitosas, el servicio de SAP esta disponible, pero no se pudo ejecutar el alta por una razon desconocida (Por descarte de los casos anteriores)` | 🧪 sintetico |
+| 401 | DESCRIPTION del solicitante no empieza con "gerente" ni "admin" (normalizado) | `El usuario solicitante no es gerente ni administrador de sistemas` | 🧪 sintetico |
+| 403 | OFFICE del solicitante y del target distintos | mensaje propio del bot verbatim, o derivado con el mismo formato | ✅ log real |
+| 403 | `job` pide un puesto de Gerente y el target no tiene DESCRIPTION de Gerente | mensaje propio del bot verbatim (`No se puede asignar el puesto ... AD Manager.`) | ✅ log real |
+| 403 | OFFICE del solicitante es "corporativo" (OAT) | `El usuario solicitante es de OAT, por lo que no tiene permitido ejecutar este proceso (OFFICE: corporativo)` | 🧪 sintetico |
+| 403 | Solicitante no pertenece a la cadena exclusiva del puesto pedido (City Club) | `El solicitante no pertenece a City Club y solicito el alta de un puesto exclusivo de City Club` | 🧪 sintetico + supuesto (ver abajo) |
+| 403 | Idem para Soriana | `El solicitante no pertenece a Soriana y solicito el alta de un puesto exclusivo de Soriana` | 🧪 sintetico + supuesto |
+| 403 | Ninguna de las anteriores se determino | `Acceso prohibido por SAP/ADManager (403): causa no determinada` | 🧪 sintetico |
+| 404 | Target no existe en ADManager (SearchUser por `employeeID`, count 0) | `El usuario target no existe en ADManager (buscado por employeeID)` | 🧪 sintetico |
+| 404 | Solicitante no existe en ADManager (SearchUser por `sAMAccountName`, count 0) | `El usuario solicitante no existe en ADManager (buscado por sAMAccountName)` | 🧪 sintetico |
+| 404 | Ninguno existe (agregado por consistencia con reseteo, no esta en la especificacion original) | `Ningun usuario existe en ADManager` | 🧪 sintetico |
+| 500 | Error desconocido, sin patron identificable | `Error interno critico e inesperado del proceso de alta de usuario en SAP: requiere revision manual` (+ `logger.critical`) | 🧪 sintetico |
+| 503 | Validaciones exitosas, el servicio de SAP fallo | `Todas las validaciones fueron exitosas, pero el servicio del lado de SAP fallo` | 🧪 sintetico |
+| otro codigo no contemplado | — | `Codigo de respuesta no reconocido (<code>) al ejecutar el alta de usuario` | — |
+
+Prioridad de evaluacion de 403 cuando no hay linea final del bot: OAT/corporativo
+→ oficinas distintas → target no es gerente → puesto exclusivo de cadena →
+causa no determinada. Para 404: target faltante → solicitante faltante →
+ambos faltantes → causa no determinada (mismo criterio que reseteo).
+
+**Dos decisiones sin confirmar con datos reales, documentadas para revisar:**
+
+- *Puestos validos para 400 "el puesto solicitado no existe"*: no se nos
+  proporciono un catalogo oficial de SAP, asi que `config.KNOWN_JOB_TITLES`
+  es una heuristica armada con los 7 puestos que si aparecen en los 4 dias
+  de muestra (Gerente Tienda, Subgerente Tienda, Jefe de Mantenimiento
+  Tienda, Supervisor Mermas, Cons.Internos Tienda, Recibo Tienda,
+  Adm.Sistemas Tienda). Cualquier puesto real fuera de esa lista se
+  reportaria incorrectamente como inexistente — actualizar la lista si
+  aparecen puestos validos nuevos.
+- *Deteccion de "puesto exclusivo de City Club/Soriana"*: no hay ejemplo
+  real de este caso. Se asume que el nombre de la cadena aparece
+  literalmente dentro del `job` solicitado (ej. "Gerente City Club") y que
+  la pertenencia del solicitante a esa cadena se puede leer de su `OU_NAME`
+  o `DESCRIPTION` en ADManager (`config.CHAIN_EXCLUSIVE_JOB_KEYWORDS`).
+  Ajustar `alta_usuario_sap_rules._handle_403` si el campo real es distinto.
+
 ## Como agregar una accion/sistema nueva en el futuro
 
 El pipeline (`src/reset_report/pipeline.py`) no conoce ningun detalle de
-ADManager ni de reseteo de contrasenas: solo agrupa el log en bloques por
-`operation_Id` y, para cada bloque, recorre `reset_report.rules.REGISTRY`
-buscando el primer rule set cuyo `matches()` devuelva `True`.
+ADManager, SAP, ni de ninguna accion en particular: solo agrupa el log en
+bloques por `operation_Id` y, para cada bloque, recorre
+`reset_report.rules.REGISTRY` buscando el primer rule set cuyo `matches()`
+devuelva `True`. `alta_usuario_sap_rules.py` es la prueba de que esto
+funciona: se agrego como segunda accion sin tocar `pipeline.py`,
+`log_ingest/` ni `output/` (solo se generalizo `searchuser_parser.py` para
+aceptar filtros por `employeeID` ademas de `sAMAccountName`, ya que SAP
+consulta al target por employeeID).
 
 Para agregar, por ejemplo, un hipotetico "bloqueo de cuenta" en otro sistema:
 
@@ -185,3 +254,10 @@ etc.) se siguen ignorando automaticamente.
   "ADM timed out"`) alrededor de los `ADMANAGER_TIMEOUT_SECONDS` (35s,
   documentado en `config.py`); no se calcula ningun delta de tiempo para
   detectarlo, el log ya lo indica explicitamente.
+- Para alta de usuario en SAP se confirmaron con datos reales los codigos
+  200, 208, 400 (employee_id no numerico) y dos de las causas de 403
+  (oficinas distintas, target no es gerente); el resto de la tabla (202,
+  las otras 3 causas de 400, 401, las otras 3 causas de 403, 404, 500, 503)
+  son sinteticas por no aparecer en la muestra de 4 dias, y dos de ellas
+  (puestos validos, deteccion de City Club/Soriana) son ademas supuestos de
+  diseno sin confirmar — ver la seccion de arriba.
