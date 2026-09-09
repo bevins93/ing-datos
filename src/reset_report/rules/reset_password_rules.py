@@ -27,17 +27,10 @@ from reset_report.parsers import (
 )
 from reset_report.report_row import ReportRow
 from reset_report.rules.base import ActionRuleSet
+from reset_report.rules.common import is_found, office_of
 from reset_report.text_normalize import normalize, starts_with_any
 
 logger = logging.getLogger(__name__)
-
-
-def _is_found(info: SearchUserInfo | None) -> bool:
-    return info is not None and info.found
-
-
-def _office_of(info: SearchUserInfo | None) -> str:
-    return info.office if _is_found(info) else ""
 
 
 def _message_from_admanager_body(resetpwd_result: ResetPwdResult | None, fallback: str) -> str:
@@ -85,11 +78,11 @@ class AdManagerResetPasswordRules(ActionRuleSet):
             accion=self.action_name,
             sistema=self.system_name,
             nombre_completo_solicitante=(
-                requester_info.nombre_completo if _is_found(requester_info) else ""
+                requester_info.nombre_completo if is_found(requester_info) else ""
             ),
-            nombre_completo_target=(target_info.nombre_completo if _is_found(target_info) else ""),
-            oficina_solicitante=_office_of(requester_info),
-            oficina_target=_office_of(target_info),
+            nombre_completo_target=(target_info.nombre_completo if is_found(target_info) else ""),
+            oficina_solicitante=office_of(requester_info),
+            oficina_target=office_of(target_info),
             resultado_final=resultado_final,
             operation_id=block.operation_id,
         )
@@ -129,7 +122,7 @@ class AdManagerResetPasswordRules(ActionRuleSet):
 
     @staticmethod
     def _handle_202(target_info: SearchUserInfo | None) -> str:
-        if _is_found(target_info) and target_info.office:
+        if is_found(target_info) and target_info.office:
             return f"El usuario target pertenece a Corporativo (oficina: {target_info.office})"
         return "El usuario target pertenece a Corporativo"
 
@@ -137,18 +130,18 @@ class AdManagerResetPasswordRules(ActionRuleSet):
     def _handle_403(
         requester_info: SearchUserInfo | None, target_info: SearchUserInfo | None
     ) -> str:
-        if _is_found(requester_info) and _is_found(target_info):
+        if is_found(requester_info) and is_found(target_info):
             requester_office = normalize(requester_info.office)
             target_office = normalize(target_info.office)
             if requester_office and target_office and requester_office != target_office:
                 return "El usuario solicitante y el usuario target no pertenecen a la misma oficina"
 
-        if _is_found(requester_info) and not starts_with_any(
+        if is_found(requester_info) and not starts_with_any(
             requester_info.description, PRIVILEGED_DESCRIPTION_PREFIXES
         ):
             return "El usuario solicitante no tiene privilegios para ejecutar el reseteo"
 
-        if _is_found(target_info) and normalize(target_info.ou_name) == RESTRICTED_TARGET_OU_NAME:
+        if is_found(target_info) and normalize(target_info.ou_name) == RESTRICTED_TARGET_OU_NAME:
             return "El usuario target pertenece a una oficina restringida (OAT/Cedis/BY)"
 
         return "Acceso prohibido por ADManager (403): causa no determinada"
@@ -157,8 +150,8 @@ class AdManagerResetPasswordRules(ActionRuleSet):
     def _handle_404(
         requester_info: SearchUserInfo | None, target_info: SearchUserInfo | None
     ) -> str:
-        requester_missing = not _is_found(requester_info)
-        target_missing = not _is_found(target_info)
+        requester_missing = not is_found(requester_info)
+        target_missing = not is_found(target_info)
 
         if target_missing and not requester_missing:
             return "El usuario objetivo no se encontro en ADManager"
