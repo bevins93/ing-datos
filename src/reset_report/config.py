@@ -45,5 +45,34 @@ CORPORATIVO_OFFICE_NAME = "corporativo"
 RESTRICTED_TARGET_OU_NAME = "oat/cedis/by"
 
 # Prefijos (normalizados) de DESCRIPTION que se consideran "con privilegios"
-# para ejecutar un reseteo como solicitante.
+# para ejecutar un reseteo o un alta de usuario como solicitante.
 PRIVILEGED_DESCRIPTION_PREFIXES = ("gerente", "admin")
+
+# --- Alta de usuario en SAP (accion alta_usuario_sap) ---
+
+# Valores validos (normalizados) del parametro `treatment` del endpoint
+# sap/register_user.
+VALID_TREATMENTS = ("señor", "señora")
+
+# Puestos (normalizados) observados realmente en los 4 dias de log de
+# muestra. Se usa como heuristica para la regla de 400 "el puesto solicitado
+# no existe": NO es un catalogo oficial de SAP (no se nos proporciono uno),
+# asi que cualquier `job` fuera de esta lista se trata como inexistente.
+# Actualizar esta lista si aparecen puestos validos nuevos.
+KNOWN_JOB_TITLES = (
+    "gerente tienda",
+    "subgerente tienda",
+    "jefe de mantenimiento tienda",
+    "supervisor mermas",
+    "cons.internos tienda",
+    "recibo tienda",
+    "adm.sistemas tienda",
+)
+
+# Nombres de cadena (normalizados) que pueden aparecer dentro de un `job`
+# solicitado como puesto "exclusivo" de esa cadena (ej. "Gerente City Club").
+# Regla de negocio del PDF sin ejemplo real disponible: se interpreta que el
+# nombre de la cadena aparece literalmente en el puesto solicitado, y que la
+# pertenencia del solicitante a esa cadena se puede leer de su OU_NAME o
+# DESCRIPTION en ADManager. Ajustar si la regla real usa otro campo.
+CHAIN_EXCLUSIVE_JOB_KEYWORDS = ("city club", "soriana")

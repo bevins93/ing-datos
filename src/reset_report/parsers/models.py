@@ -39,3 +39,23 @@ class ResetPwdResult:
     is_timeout: bool
     status: str = ""
     status_message: str = ""
+
+
+@dataclass
+class RegisterUserTrigger:
+    """Datos de la linea gatillo `sap/register_user`."""
+
+    timestamp: str
+    requester: str
+    target_employee_id: str
+    treatment: str
+    job: str
+    http_code: str
+
+
+@dataclass
+class SapRawResponse:
+    """Resultado de `MT_RespAltaUsrResetPwd` dentro de `SAP raw response`."""
+
+    estatus: str
+    mensaje: str
