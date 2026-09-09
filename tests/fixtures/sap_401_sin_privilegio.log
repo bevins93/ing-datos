@@ -1,0 +1,6 @@
+2026-08-29T19:00:00.000000Z | INFO [operation_Id=40100000000000000000000000000001] | HTTP Request: http://apitools.com:8000/v2/sap/register_user?requester_username=cajera300&target_employee_id=1500300001&treatment=señor&job=Recibo+Tienda "HTTP/1.1" 401
+2026-08-29T19:00:01.000000Z | INFO [operation_Id=40100000000000000000000000000001] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Acajera300%29 "HTTP/1.1 200 "
+2026-08-29T19:00:01.100000Z | INFO [operation_Id=40100000000000000000000000000001] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:cajera300)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Rosa","LAST_NAME":"Diaz","OFFICE":"0300","DESCRIPTION":"Cajera","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"cajera300"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:

@@ -1,0 +1,1 @@
+2026-08-29T19:40:00.000000Z | INFO [operation_Id=40300000000000000000000000000104] | HTTP Request: http://apitools.com:8000/v2/sap/register_user?requester_username=admsistemas420&target_employee_id=1500400004&treatment=señor&job=Recibo+Tienda "HTTP/1.1" 403

@@ -1,0 +1,11 @@
+2026-08-29T20:00:00.000000Z | INFO [operation_Id=40400000000000000000000000000102] | HTTP Request: http://apitools.com:8000/v2/sap/register_user?requester_username=noexiste501&target_employee_id=1500500001&treatment=señor&job=Recibo+Tienda "HTTP/1.1" 404
+2026-08-29T20:00:01.000000Z | INFO [operation_Id=40400000000000000000000000000102] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28employeeID%3Aequal%3A1500500001%29 "HTTP/1.1 200 "
+2026-08-29T20:00:01.100000Z | INFO [operation_Id=40400000000000000000000000000102] | ADManagerRawClient.get_users_list_info_by_employee_id_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(employeeID:equal:1500500001)'}, Raw Response: {"UsersList":[{"FIRST_NAME":"Iris","LAST_NAME":"Beltran","OFFICE":"0501","DESCRIPTION":"Recibo Tienda","OU_NAME":"Tienda/POS/Intelexion Tienda","SAM_ACCOUNT_NAME":"1500500001"}],"count":1,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:
+2026-08-29T20:00:01.200000Z | INFO [operation_Id=40400000000000000000000000000102] | HTTP Request: GET https://admanager.retailstore.com/RestAPI/SearchUser?domainName=retailstore.com&AuthToken=[REDACTED_TOKEN]&range=2&startIndex=1&filter=%28sAMAccountName%3Aequal%3Anoexiste501%29 "HTTP/1.1 200 "
+2026-08-29T20:00:01.300000Z | INFO [operation_Id=40400000000000000000000000000102] | ADManagerRawClient.get_users_list_info_from_admanager invoked
+Params to execute POST to SearchUser: {'domainName': 'retailstore.com', 'AuthToken': '[REDACTED_TOKEN]', 'range': 2, 'startIndex': 1, 'filter': '(sAMAccountName:equal:noexiste501)'}, Raw Response: {"UsersList":[],"count":0,"statusMessage":"","status":"SUCCESS"}
+
+, Raw status_code: 200, Raw reason_phrase:

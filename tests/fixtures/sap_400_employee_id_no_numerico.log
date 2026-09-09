@@ -1,0 +1,1 @@
+2026-08-31T18:17:05.433129Z | INFO [operation_Id=40000000000000000000000000000001] | HTTP Request: http://apitools.com:8000/v2/sap/register_user?requester_username=caphum165&target_employee_id=Caphum165&treatment=señor&job=Adm.Sistemas+Tienda "HTTP/1.1" 400
