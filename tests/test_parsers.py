@@ -30,8 +30,11 @@ def test_extract_searchuser_results():
     block = _single_block("reset_200_success.log")
     results = extract_searchuser_results(block)
 
-    assert set(results) == {"admsistemas970", "1500335663"}
-    requester_info = results["admsistemas970"]
+    assert set(results) == {
+        ("sAMAccountName", "admsistemas970"),
+        ("sAMAccountName", "1500335663"),
+    }
+    requester_info = results[("sAMAccountName", "admsistemas970")]
     assert requester_info.found is True
     assert requester_info.nombre_completo == "Juan Perez"
     assert requester_info.office == "0970"

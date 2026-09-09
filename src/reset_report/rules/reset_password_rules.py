@@ -66,8 +66,8 @@ class AdManagerResetPasswordRules(ActionRuleSet):
             return None
 
         searchuser_results = extract_searchuser_results(block)
-        requester_info = searchuser_results.get(trigger.requester)
-        target_info = searchuser_results.get(trigger.target)
+        requester_info = searchuser_results.get(("sAMAccountName", trigger.requester))
+        target_info = searchuser_results.get(("sAMAccountName", trigger.target))
         resetpwd_result = extract_resetpwd_result(block)
 
         resultado_final = self._determine_resultado_final(
