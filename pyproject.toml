@@ -8,6 +8,7 @@ dependencies = []
 
 [project.scripts]
 reset-report = "reset_report.cli:main"
+reset-report-filter = "reset_report.filter_by_accion:main"
 
 [build-system]
 requires = ["hatchling"]
