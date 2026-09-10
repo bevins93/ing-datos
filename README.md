@@ -82,6 +82,24 @@ ya se procesaron). Por eso:
 - Reprocesar un log "corregido" (con lineas nuevas agregadas a mano) solo
   agrega lo nuevo.
 
+### Extraer una sola accion a un CSV aparte
+
+`reset-report-filter` proyecta las filas de `tabla_reporte_bot.csv` que
+correspondan a una `accion` especifica hacia otro CSV, sin volver a procesar
+ningun log ni aplicar reglas de negocio (es un filtro puro sobre datos ya
+generados):
+
+```bash
+uv run reset-report-filter --accion alta_usuario_sap \
+    --input-csv data/output/tabla_reporte_bot.csv \
+    --output-csv data/output/tabla_reporte_bot_alta_usuario_sap.csv
+
+uv run reset-report-filter --accion reseteo_password \
+    --output-csv data/output/tabla_reporte_bot_reseteo_password.csv
+```
+
+(`--input-csv` es opcional, por default usa `data/output/tabla_reporte_bot.csv`.)
+
 ## Pruebas y calidad de codigo
 
 ```bash
